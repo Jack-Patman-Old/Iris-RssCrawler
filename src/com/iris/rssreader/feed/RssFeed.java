@@ -4,40 +4,32 @@ import java.util.UUID;
 
 public class RssFeed
 {
-	private UUID id;
+	private int id;
 	private String category; 
 	private String feedUrl; 
 	private String dateFormat;
 	
+	public RssFeed(int id, String category, String feedUrl, String dateFormat)
+	{
+		this.id = id; 
+		this.category = category; 
+		this.feedUrl = feedUrl;
+		this.dateFormat = dateFormat; 
+	}
 
-	public UUID getId()
+	public int getId()
 	{
 		return id;
 	}
-	
-	public void setId(UUID id)
-	{
-		this.id = id;
-	}
-	
+
 	public String getCategory()
 	{
 		return category;
 	}
-	
-	public void setCategory(String category)
-	{
-		this.category = category;
-	}
-	
+
 	public String getFeedUrl()
 	{
 		return feedUrl;
-	}
-	
-	public void setFeedUrl(String feedUrl)
-	{
-		this.feedUrl = feedUrl;
 	}
 	
 	public String getDateFormat()
@@ -45,8 +37,4 @@ public class RssFeed
 		return dateFormat;
 	}
 	
-	public void setDateFormat(String dateFormat)
-	{
-		this.dateFormat = dateFormat;
-	} 
 }

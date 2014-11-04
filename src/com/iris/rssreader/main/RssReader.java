@@ -1,5 +1,6 @@
 package com.iris.rssreader.main;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,17 +26,32 @@ public class RssReader
 
 	private static List<RssFeed> LoadFeeds()
 	{
+		List<RssFeed> feeds = new ArrayList<RssFeed>(); 
+		
 		try
 		{
 			Class.forName("org.postgresql.Driver");
 			Connection dbConnection = connectToDb();
+			Statement st = dbConnection.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM \"RSSFeeds\"");
+			while (rs.next())
+			{
+			   int id = Integer.parseInt(rs.getString(1));
+			   String feedCategory = rs.getString(2);
+			   String feedUrl = rs.getString(3);
+			   String dateFormat = rs.getString(4);
+			   
+			   feeds.add(new RssFeed(id, feedCategory, feedUrl, dateFormat));
+			} 
+			rs.close();
+			st.close();
 		} 
-		catch (ClassNotFoundException e)
+		catch (ClassNotFoundException | SQLException e)
 		{
 			e.printStackTrace();
-		}
+		}	
 
-		return null;
+		return feeds;
 	}
 
 	private static Connection connectToDb()
