@@ -13,8 +13,8 @@ public class Article
 	public Article(int feedId, String headline, String description, Date publicationDate, String url)
 	{
 		this.feedId = feedId;
-		this.headline = headline;
-		this.description = description;
+		this.headline = headline.replace("'", "''");
+		this.description = description.replace("'", "''");
 		this.publicationDate = publicationDate;
 		this.url = url; 
 	}
@@ -24,7 +24,7 @@ public class Article
 	{
 		return feedId;
 	}
-	public String getDeadline()
+	public String getHeadline()
 	{
 		return headline;
 	}

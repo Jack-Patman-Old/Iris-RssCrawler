@@ -1,16 +1,10 @@
 package com.iris.rssreader.main;
 
-
 import java.net.MalformedURLException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-
-
-
-
 
 import com.iris.rsseader.db.properties.PropertiesAccessor;
 import com.iris.rssreader.feed.Article;
@@ -24,6 +18,7 @@ import com.sun.syndication.io.XmlReader;
 public class RssReader
 {
 	Properties prop;
+	static Connection dbConnection;
 
 	/**
 	 * When main method is invoked, will load RSS feed details from a database
@@ -33,7 +28,52 @@ public class RssReader
 	{
 		List<RssFeed> feeds = LoadFeeds();
 		List<Article> articles = ExtractArticles(feeds);
-		// Write articles to db
+		WriteArticlesToDb(articles);
+	}
+
+	private static void WriteArticlesToDb(List<Article> articles)
+	{
+		for (Article article : articles)
+		{
+
+			Statement statement;
+			String sql = null;
+			int urlId = 0;
+
+			try
+			{
+				statement = dbConnection.createStatement();
+				sql = "INSERT INTO \"UnprocessedArticleUrls\" (\"Url\")"
+						+ "VALUES ('" + article.getUrl().toString() + "')";
+				statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
+				ResultSet keyset = statement.getGeneratedKeys();
+				if (keyset.next())
+				{
+					// Retrieve the auto generated key(s).
+					urlId = keyset.getInt(1);
+				}
+
+				statement = dbConnection.createStatement();
+				sql = "INSERT INTO \"UnprocessedArticles\" (\"FeedId\",\"Headline\",\"Description\",\"PublicationDate\",\"UrlId\") "
+						+ "VALUES ("
+						+ Integer.toString(article.getFeedId())
+						+ ","
+						+ "'"
+						+ article.getHeadline()
+						+ "',"
+						+ "'"
+						+ article.getDescription()
+						+ "',"
+						+ "'"
+						+ article.getPublicationDate() + "'," + urlId + ")";
+				statement.executeUpdate(sql);
+			}
+			catch (Exception e)
+			{
+				System.out.println("Error encountered :" + e
+						+ " executing statement :" + sql);
+			}
+		}
 	}
 
 	/**
@@ -51,14 +91,16 @@ public class RssReader
 			try
 			{
 				SyndFeedInput input = new SyndFeedInput();
-				SyndFeed inputFeed = input.build(new XmlReader(feed.getFeedUrl()));
-				for (SyndEntry entry : (List<SyndEntry>) inputFeed.getEntries()) 
+				SyndFeed inputFeed = input.build(new XmlReader(feed
+						.getFeedUrl()));
+				for (SyndEntry entry : (List<SyndEntry>) inputFeed.getEntries())
 				{
-				    String title = entry.getTitle();
-				    String description = entry.getDescription().getValue();
-				    java.util.Date date = entry.getPublishedDate();
-				    String uri = entry.getUri();
-				    articles.add(new Article(feed.getId(), title, description, date, uri));
+					String title = entry.getTitle();
+					String description = entry.getDescription().getValue();
+					java.util.Date date = entry.getPublishedDate();
+					String uri = entry.getUri();
+					articles.add(new Article(feed.getId(), title, description,
+							date, uri));
 				}
 			}
 			catch (Exception e)
@@ -77,7 +119,7 @@ public class RssReader
 		try
 		{
 			Class.forName("org.postgresql.Driver");
-			Connection dbConnection = connectToDb();
+			dbConnection = connectToDb();
 			Statement st = dbConnection.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM \"RSSFeeds\"");
 			while (rs.next())
@@ -93,7 +135,8 @@ public class RssReader
 			}
 			rs.close();
 			st.close();
-		} catch (ClassNotFoundException | SQLException | MalformedURLException e)
+		}
+		catch (ClassNotFoundException | SQLException | MalformedURLException e)
 		{
 			e.printStackTrace();
 		}
@@ -110,7 +153,8 @@ public class RssReader
 		try
 		{
 			conn = DriverManager.getConnection(prop.getProperty("conn"), prop);
-		} catch (SQLException e)
+		}
+		catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
