@@ -1,19 +1,22 @@
 package com.iris.rssreader.feed;
 
-import java.util.UUID;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class RssFeed
 {
 	private int id;
+	private int outletId;
 	private String category; 
-	private String feedUrl; 
+	private URL feedUrl; 
 	private String dateFormat;
 	
-	public RssFeed(int id, String category, String feedUrl, String dateFormat)
+	public RssFeed(int id, int outletId, String category, String feedUrl, String dateFormat) throws MalformedURLException
 	{
 		this.id = id; 
+		this.outletId = outletId; 
 		this.category = category; 
-		this.feedUrl = feedUrl;
+		this.feedUrl = new URL(feedUrl);
 		this.dateFormat = dateFormat; 
 	}
 
@@ -21,13 +24,17 @@ public class RssFeed
 	{
 		return id;
 	}
-
+	
+	public int getOutletId()
+	{
+		return outletId; 
+	}
 	public String getCategory()
 	{
 		return category;
 	}
 
-	public String getFeedUrl()
+	public URL getFeedUrl()
 	{
 		return feedUrl;
 	}

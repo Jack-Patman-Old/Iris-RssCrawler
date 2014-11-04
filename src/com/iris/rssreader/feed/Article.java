@@ -1,15 +1,44 @@
 package com.iris.rssreader.feed;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class Article
 {
-	private UUID id;
-	private UUID feedId;
-	private String deadline;
+	private int feedId;
+	private String headline;
 	private String description;
 	private Date publicationDate;
-	private UUID urlId;
 	private String url;
+	
+	public Article(int feedId, String headline, String description, Date publicationDate, String url)
+	{
+		this.feedId = feedId;
+		this.headline = headline;
+		this.description = description;
+		this.publicationDate = publicationDate;
+		this.url = url; 
+	}
+	
+
+	public int getFeedId()
+	{
+		return feedId;
+	}
+	public String getDeadline()
+	{
+		return headline;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	public Date getPublicationDate()
+	{
+		return publicationDate;
+	}
+	public String getUrl()
+	{
+		return url;
+	}
 }
+
