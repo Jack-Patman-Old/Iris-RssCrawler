@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.iris.rsseader.db.properties.PropertiesAccessor;
+import com.iris.rssreader.db.properties.PropertiesAccessor;
 import com.iris.rssreader.feed.Article;
 import com.iris.rssreader.feed.RssFeed;
 
