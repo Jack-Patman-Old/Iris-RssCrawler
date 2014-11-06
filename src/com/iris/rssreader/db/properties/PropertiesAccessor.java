@@ -1,4 +1,4 @@
-package com.iris.rsseader.db.properties;
+package com.iris.rssreader.db.properties;
 
 import java.io.IOException;
 import java.util.Properties;
