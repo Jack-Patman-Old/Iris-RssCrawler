@@ -47,7 +47,7 @@ public class RssReader
 					java.util.Date date = entry.getPublishedDate();
 					String uri = entry.getUri();
 					articles.add(new Article(feed.getId(), title, description,
-							date, uri));
+							date, uri, null));
 				}
 			}
 			catch (Exception e)

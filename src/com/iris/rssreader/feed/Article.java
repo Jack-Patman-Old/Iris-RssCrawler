@@ -10,7 +10,7 @@ public class Article
 	private Date publicationDate;
 	private String url;
 	
-	public Article(int feedId, String headline, String description, Date publicationDate, String url)
+	public Article(int feedId, String headline, String description, Date publicationDate, String url, String baseCategory)
 	{
 		this.feedId = feedId;
 		this.headline = headline.replace("'", "''");
@@ -18,7 +18,6 @@ public class Article
 		this.publicationDate = publicationDate;
 		this.url = url; 
 	}
-	
 
 	public int getFeedId()
 	{

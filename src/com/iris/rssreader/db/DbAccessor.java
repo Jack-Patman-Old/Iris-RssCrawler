@@ -29,10 +29,14 @@ public class DbAccessor
 				Class.forName("org.postgresql.Driver");
 				conn = DriverManager.getConnection(prop.getProperty("conn"), prop);
 			}
-			catch (SQLException | ClassNotFoundException e)
+			catch (SQLException e)
 			{
 				e.printStackTrace();
-			}	
+			}
+			catch (ClassNotFoundException e)
+			{
+				e.printStackTrace();
+			}
 	}
 	
 	public void WriteArticlesToDb(List<Article> articles)
@@ -95,7 +99,11 @@ public class DbAccessor
 			rs.close();
 			st.close();
 		}
-		catch (SQLException | MalformedURLException e)
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
 		}
@@ -141,8 +149,9 @@ public class DbAccessor
 		try
 		{
 			Statement statement = conn.createStatement();
-			sql = "SELECT * FROM \"UnprocessedArticleUrls\" WHERE \"Url\"='"
-					+ url + "' LIMIT 1";
+			sql = "SELECT * FROM \"UnprocessedArticleUrls\" "
+				  + "WHERE \"Url\"='" + url + "' AND "
+				  + "\"DateProcessed\" >  CURRENT_TIMESTAMP - INTERVAL '1 days'"; 
 			ResultSet rs = statement.executeQuery(sql);
 
 			if (!rs.next())
