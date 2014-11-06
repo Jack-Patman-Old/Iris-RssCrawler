@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="3099470981">
+    <data-source source="LOCAL" name="PostgreSQL - jackpatm_iris@91.212.182.221" uuid="c8e3b4fb-7ac4-47e6-8fc5-b68b13e3b334">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://91.212.182.221:5432/jackpatm_iris</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
