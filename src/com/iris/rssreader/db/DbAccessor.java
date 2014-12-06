@@ -1,11 +1,7 @@
 package com.iris.rssreader.db;
 
 import java.net.MalformedURLException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -27,7 +23,7 @@ public class DbAccessor
 			try
 			{
 				Class.forName("org.postgresql.Driver");
-				conn = DriverManager.getConnection(prop.getProperty("conn"), prop);
+				conn = DriverManager.getConnection(prop.getProperty("connectionString"), prop.getProperty("username"), prop.getProperty("password"));
 			}
 			catch (SQLException e)
 			{
@@ -51,7 +47,7 @@ public class DbAccessor
 			{
 				if (!ArticleIsDuplicate(article.getUrl()))
 				{
-					int urlId = WriteUrlToDb(article.getUrl().toString());
+					int urlId = WriteUrlToDb(article.getUrl());
 
 					statement = conn.createStatement();
 					sql = "INSERT INTO \"UnprocessedArticles\" (\"FeedId\",\"Headline\",\"Description\",\"PublicationDate\",\"UrlId\") "
@@ -117,9 +113,10 @@ public class DbAccessor
 		String sql = null;
 		try
 		{
+			Timestamp dateProcessed = new Timestamp(System.currentTimeMillis());
+			sql = "INSERT INTO \"UnprocessedArticleUrls\" (\"Url\", \"DateProcessed\") VALUES ('" + url + "', '" + dateProcessed + "' )";
 			statement = conn.createStatement();
-			sql = "INSERT INTO \"UnprocessedArticleUrls\" (\"Url\")"
-					+ "VALUES ('" + url + "')";
+
 
 			statement.execute(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet keyset = statement.getGeneratedKeys();
