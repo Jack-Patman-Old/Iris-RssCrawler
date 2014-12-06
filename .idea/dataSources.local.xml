@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - jackpatm_iris@91.212.182.221" uuid="c8e3b4fb-7ac4-47e6-8fc5-b68b13e3b334">
+      <secret-storage>memory</secret-storage>
+    </data-source>
+  </component>
+</project>
