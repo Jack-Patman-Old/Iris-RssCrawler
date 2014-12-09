@@ -14,7 +14,8 @@ public class DbAccessor
 {
 	private Properties prop;
 	private Connection conn;
-	
+	private PreparedStatement ps;
+
 	public DbAccessor()
 	{
 			PropertiesAccessor accessor = new PropertiesAccessor();
@@ -145,10 +146,14 @@ public class DbAccessor
 
 		try
 		{
-			Statement statement = conn.createStatement();
-			sql = "SELECT * FROM \"ProcessedArticleUrls\" "
-				  + "WHERE \"Url\"= + url +";
-			ResultSet rs = statement.executeQuery(sql);
+
+			final String statement = "SELECT * FROM  \"ProcessedArticleUrls\" WHERE \"Url\" = ?";
+
+			ps = conn.prepareStatement(statement);
+			ps.setString(1, url);
+
+
+			ResultSet rs = ps.executeQuery();
 
 			if (!rs.next())
 			{
