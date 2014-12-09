@@ -146,9 +146,8 @@ public class DbAccessor
 		try
 		{
 			Statement statement = conn.createStatement();
-			sql = "SELECT * FROM \"UnprocessedArticleUrls\" "
-				  + "WHERE \"Url\"='" + url + "' AND "
-				  + "\"DateProcessed\" >  CURRENT_TIMESTAMP - INTERVAL '1 days'"; 
+			sql = "SELECT * FROM \"ProcessedArticleUrls\" "
+				  + "WHERE \"Url\"= + url +";
 			ResultSet rs = statement.executeQuery(sql);
 
 			if (!rs.next())
