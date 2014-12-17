@@ -5,6 +5,11 @@ import java.util.Properties;
 
 public class PropertiesAccessor
 {
+	/**
+	 * Loads the config.properties file containing Database access information.
+	 *
+	 * @return Standard property object containing all information within the config.properties file
+	 */
 	public Properties GetProperties()
 	{
 		Properties prop = new Properties();

@@ -27,6 +27,15 @@ public class RssReader
 
 	// Unchecked cast - should be safe based on api specification
 	@SuppressWarnings("unchecked")
+
+	/**
+	 * Takes a list of RSSFeed objects loaded from  and attempts
+	 * to extract information from each feed using the Rome RSS
+	 * Crawler library.
+	 *
+	 * @param  feeds  List of RSSFeed objects
+	 * @return      List of articles extracted from the Rss Feed
+	 */
 	private static List<Article> ExtractArticles(List<RssFeed> feeds)
 	{
 		/* Extract articles from a given Rss feed, generate list of articles 

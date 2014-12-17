@@ -9,7 +9,8 @@ public class Article
 	private String description;
 	private Date publicationDate;
 	private String url;
-	
+
+    //TODO : Base Category needs to be extracted from articles and read into Db when we get to the Categorization stage.
 	public Article(int feedId, String headline, String description, Date publicationDate, String url, String baseCategory)
 	{
 		this.feedId = feedId;
@@ -35,9 +36,7 @@ public class Article
 	{
 		return publicationDate;
 	}
-	public String getUrl()
-	{
-		return url;
-	}
+	public String getUrl()	{ return url; }
+
 }
 

@@ -16,6 +16,17 @@ public class DbAccessor
 	private Connection conn;
 	private PreparedStatement ps;
 
+	/**
+	 * The DbAccessor object maintains is an object that stores all database interaction.
+	 * Constructing the DbAccessor object using the default constructor will search for
+	 * a config.properties file from the classpath before search for the following values (by string key)
+	 *
+	 * <ul>
+	 *     <li>connectingString: Connecting string to the intended database.</li>
+	 *     <li>Username: Self explanatory, username for db login.</li>
+	 *     <li>Pasword: Self explanatory, password for db login.</li>
+	 * </ul>
+	 */
 	public DbAccessor()
 	{
 			PropertiesAccessor accessor = new PropertiesAccessor();
@@ -35,7 +46,13 @@ public class DbAccessor
 				e.printStackTrace();
 			}
 	}
-	
+
+	/**
+	 * Takes a list of articles and writes them to the database as UnprocessedArticles
+	 * for later processing by the rainbow module.
+	 *
+	 * @param  articles  List of articles gathered from RssFeeds.
+	 */
 	public void WriteArticlesToDb(List<Article> articles)
 	{
 		for (Article article : articles)
@@ -73,7 +90,13 @@ public class DbAccessor
 			}
 		}
 	}
-	
+
+
+	/**
+	 * Returns a list of manually entered RssFeeds to search for articles.
+	 *
+	 * @return List of RssFeed objects that can be searched for news articles.
+	 */
 	public List<RssFeed> LoadFeeds()
 	{
 		List<RssFeed> feeds = new ArrayList<RssFeed>();
@@ -107,7 +130,13 @@ public class DbAccessor
 
 		return feeds;
 	}
-	
+
+	/**
+	 * Writes a single url to the database and returns the serial Id generated for that Url
+	 *
+	 * @param url The full url to write to the database
+	 * @return The generated key for the Url entered into the database.
+	 */
 	private int WriteUrlToDb(String url)
 	{
 		Statement statement;
@@ -137,9 +166,15 @@ public class DbAccessor
 		return 0;
 	}
 
-	/* Checks if the url already exists in database to avoid duplicate
-	 *  archived articles. Url used as same headline may be used by different 
-	 *  news outlets */ 
+
+	/**
+	 * Checks if the Url in question has already been processed, otherwise the article is assumed
+	 * to not have yet been processed. Especially importing as we must trim down the amount of data
+	 * to be processed at later stages.
+	 *
+	 * @param url The full url to check against existing urls.
+	 * @return a boolean specifying if the url already exists or not on the Db.
+	 */
 	private boolean ArticleIsDuplicate(String url)
 	{
 		String sql = null;

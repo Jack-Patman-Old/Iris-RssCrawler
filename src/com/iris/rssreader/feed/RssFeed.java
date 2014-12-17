@@ -24,7 +24,6 @@ public class RssFeed
 	{
 		return id;
 	}
-	
 	public int getOutletId()
 	{
 		return outletId; 
@@ -33,12 +32,10 @@ public class RssFeed
 	{
 		return category;
 	}
-
 	public URL getFeedUrl()
 	{
 		return feedUrl;
 	}
-	
 	public String getDateFormat()
 	{
 		return dateFormat;
